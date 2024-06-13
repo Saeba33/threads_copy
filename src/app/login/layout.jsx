@@ -1,4 +1,4 @@
-import { Footer } from "@/components/footer/Footer";
+import { Footer } from "@/components/Footer/Footer";
 import Image from "next/image";
 
 export default function Layout({ children }) {
