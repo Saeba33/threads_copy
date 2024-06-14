@@ -55,7 +55,29 @@ export const authOptions = {
   pages: {
     signIn: "/login/signin",
   },
-  callbacks: {},
+  callbacks: {
+    async jwt({ token, user }) {
+      user && (token.user = user);
+      return token;
+    },
+    async session({ session, token }) {
+      session.user = token.user;
+     const { email } = session.user;
+     const client = await MongoClient.connect(process.env.MONGODB_CLIENT);
+     const db = client.db(process.env.MONGODB_DATABASE);
+     let userDB = await db.collection("users").find({ email }).limit(1).toArray();
+     userDB = userDB.map((user) => ({
+       _id: user._id.toString(),
+       username: user.username,
+       pseudo: user.pseudo,
+       email: user.email,
+       picture: user.picture,
+     }))[0];
+
+     await client.close();
+     return { ...session, user: {...userDB,}, };
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);
