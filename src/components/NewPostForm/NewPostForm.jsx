@@ -24,13 +24,12 @@ export default function NewPostForm({ closeModale = () => {} }) {
   return (
     <form action={onPrepare}>
       <div className="flex gap-3 w-full">
-        <div>
+        <div className="w-[50px] h-[50px] rounded-full overflow-hidden mt-5">
           <Image
             src={session?.user.picture}
             alt="User picture"
             width={50}
             height={50}
-            className="rounded-full mt-5"
             unoptimized
           />
         </div>

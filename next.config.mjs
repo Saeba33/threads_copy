@@ -1,5 +1,5 @@
 export default (env) => {
-  if (env.PHRASE_DEVELOPMENT_SERVER) {
+  if (env == "phase-development-server") {
     return {
       env: {
         MONGODB_CLIENT:

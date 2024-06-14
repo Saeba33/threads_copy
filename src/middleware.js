@@ -9,6 +9,10 @@ export function middleware(request) {
     isAuthenticated = true;
   }
 
+  if (hasCookie("__Secure-next-auth.session-token", { cookies })) {
+    isAuthenticated = true;
+  }
+
   if (!isAuthenticated) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";

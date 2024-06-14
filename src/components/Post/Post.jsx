@@ -1,5 +1,6 @@
 "use client";
 
+import { deletePost } from "@/actions/delete-post";
 import moment from "moment-timezone";
 import "moment/locale/fr";
 import { useSession } from "next-auth/react";
@@ -7,37 +8,35 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { deletePost } from "@/actions/delete-post";
 
 export default function Post({ post }) {
   const { data: session } = useSession();
   const [optionsAreOpen, setOptionsAreOpen] = useState(false);
 
   const onDeletePost = async () => {
-    if(!confirm("Voulez-vous vraiment supprimer ce post ?")) return;
+    if (!confirm("Voulez-vous vraiment supprimer ce post ?")) return;
 
     try {
       await deletePost(post._id);
-    }
-    catch (error) {
+    } catch (error) {
       console.error(error.message);
     }
 
     toast.success("Post supprimé");
-
   };
 
   return (
     <div className="post">
       <div>
-        <Image
-          src={post.picture}
-          alt="Profile picture"
-          width={50}
-          height={50}
-          className="rounded-full object-cover"
-          unoptimized
-        />
+        <div className="w-[50px] h-[50px] mt-5 rounded-full overflow-hidden">
+          <Image
+            src={post.picture}
+            alt="Profile picture"
+            width={50}
+            height={50}
+            unoptimized
+          />
+        </div>
       </div>
       <div className="text-white w-full">
         <div className="flex items-center justify-between">
@@ -73,7 +72,9 @@ export default function Post({ post }) {
                 ) : (
                   <>
                     <div className="option">Modifier</div>
-                    <div className="option" onClick={onDeletePost}>Supprimer</div>
+                    <div className="option" onClick={onDeletePost}>
+                      Supprimer
+                    </div>
                   </>
                 )}
               </div>
